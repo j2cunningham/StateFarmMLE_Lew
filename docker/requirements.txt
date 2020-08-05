@@ -1,0 +1,6 @@
+flask
+numpy
+scikit-learn==0.21.3
+joblib
+pandas
+xgboost==0.90
