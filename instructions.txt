@@ -1,0 +1,48 @@
+Step 0:
+A few words of caution: 
+1) Read all the way through the instructions. 
+2) Models must be deployed as an API using Python.
+3) No additional data may be added or used. 
+4) Not all data must be used to build an adequate model, but making use of complex variables will help us identify high-performance candidates.
+5) The predictions returned by the API should include both the class probabilities for belonging to the positive class, plus a separate entry for the class itself (i.e. a decimal value, and a separate 1 or 0). 
+
+Step 1:
+Optimize the model: There are areas for improvement for the base model presented. Modify the code to improve the accuracy of the model. Look for opportunities to improve  performance including data cleaning/preparation, model selection, train/test split, and hyper-parameter tuning. The model performance will be measured by AUC against the holdout test set. 
+
+Step 2:
+Prepare model deployment for production: Update your code to meet common production coding standards and best practices. These include modularization, code quality, proper unit testing, and comments/documentation. This should be completed for all parts of Step 1. The code will be evaluated using tooling that evaluates code coverage and code quality. Place unit tests in a folder called "tests" outside of your project code.
+
+Step 3:
+Wrap the model code inside an API: The model must be made callable via API call. The call will pass 1 to N rows of data in JSON format, and expects a N responses each with a predicted class and probability belonging to the predicted class. Please use port 5001 for your API Endpoint. 
+
+Here is an example curl call to your API:
+
+curl --request POST --url http://localhost:5001/predict --header 'content-type: application/json' --data '{"x0": "9.521496806", "x1": "wed", "x2": "-5.087588682", "x3": "-17.21471427", ..., "x97": "2.216918955", "x98": "-18.64465705", "x99": "-1.926577376"}'
+
+Sample JSON Response: 
+[{"class": 0, "probability": 0.5211449595189876}]
+
+or a batch curl call:
+
+curl --request POST --url http://localhost:5001/predict --header 'content-type: application/json' --data '[{"x0": "9.521496806", "x1": "wed", "x2": "-5.087588682", "x3": "-17.21471427", ..., "x97": "2.216918955", "x98": "-18.64465705", "x99": "-1.926577376"},{"x0": "8.415753628", "x1": "thur", "x2": "-4.934359322", "x3": "-6.21844247", ..., "x97": "6.2714321", "x98": "-38.057369", "x99": "-2.76817620"},...,{"x0": "0.96691828", "x1": "thursday", "x2": "-3.86881782", "x3": "-2.2981827", ..., "x97": "3.1854471", "x98": "-33.6058873", "x99": "-2.02788172"}]'
+
+Sample Batch JSON Response:
+[{"class": 0, "probability": 0.5211449595189876},
+ {"class": 1, "probability": 0.6211449595189876},
+ {"class": 0, "probability": 0.7211449595189876},
+		...
+ {"class": 1, "probability": 0.8211449595189876}]
+
+Each of the 10,000 rows in the test dataset will be passed through an API call. The call could be a single batch call w/ all 10,000 rows, or 10,000 individual calls. API should be able to handle either case with minimal impact to performance. Note that whether it is a single call or batch call, it should always return an array. 
+
+Step 4:
+Wrap your API in a Docker image: Create a Dockerfile that builds your API into an image. Write a shell script titled run_api.sh that either runs your image using traditional docker run commands or orchestrates your deployment using Compose, Swarm or Kubernetes (include relevant *.yml config files). 
+
+Step 5:
+Optimize your deployment for enterprise production and scalability: Identify opportunities to optimize your deployment for scalability. Consider how your API might handle a large number of calls (thousands per minute). What additional steps/tech could you add to your deployment in order to make it scalable for enterprise level production. You can incorporate any relevant code (optional), or you can describe your steps in the write-up as part of Step 6. 
+
+
+Step 6:
+Submit your work: Please submit all of your code, including relevant python files for the API, data prep, model build, Dockerfile (if relevant, orchestration config files), startup shell script, and a brief write-up documenting justification for your end-to-end process in PDF format. Recommend to tar or zip all files into a single archive for submission. 
+ 
+Please do not submit the original data back to us. Your work will be scored on model performance - measured by AUC - on the data hold out, API performance and scalability, code quality and coverage, and creativity points based on a review of Step 5.
