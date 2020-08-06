@@ -14,9 +14,9 @@ Briefly, the model is wrapped in Flask. Original data is not included. Below are
 1. Execute `python api.py` in a terminal
 2. In another terminal you can run `sh run_pred_200_times.sh`. This calls the API 200 times and feeds the API with data and makes a prediction.
 
-The model Flask API was then wrapped in Docker. You can find this is `docker` sub-directory. First make sure you have Docker running in the background. In a terminal, simply run the `run_api.sh` file.
+The model Flask API was then wrapped in Docker. You can find this in the `docker` sub-directory. First make sure you have Docker running in the background. In a terminal, simply run `run_api.sh` .
 
-**CAUTION!!!!** If you currently have Docker images that your Docker server and want to keep them, simply remove the `docker system prune -a` line from the `run_api.sh` file. 
+**CAUTION!!!!** If you currently have Docker images in your Docker server and want to keep them, simply remove the `docker system prune -a` line from the `run_api.sh` file. 
 
 I am unable to get a prediction from the Docker image when using 
 
